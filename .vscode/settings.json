@@ -56,5 +56,13 @@
         "text_encoding": "cpp",
         "cinttypes": "cpp",
         "variant": "cpp"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".mule": true
     }
 }

@@ -21,6 +21,15 @@ int main(int argc, char **argv)
 
     /******************ADD YOUR VARIABLES HERE*************************/
     long long current_time = 0; // current_time variable to track simulation time
+    int context_time = 10;      // default context save/restore time (ms)
+    int isr_time = 40;          // default ISR execution time (ms)
+    std::string output_filename;
+    if (argc >= 5)
+        output_filename = argv[4];
+    if (argc >= 6)
+        context_time = std::stoi(argv[5]);
+    if (argc >= 7)
+        isr_time = std::stoi(argv[6]);
     enum EventType
     {
         CPU_BURST,
@@ -51,16 +60,17 @@ int main(int argc, char **argv)
         int device_id;           // e.g., 7
         std::string ISR_address; // from vector_table.txt (e.g. 0x0E)
         int io_delay;            // from device_table.txt (e.g. 110 ms)
-        int isr_time;            // ISR execution time (variable, default 40 ms)
-        int context_time;        // context save/restore time (10, 20, 30 ms)
-
-        SyscallEvent(int dev, std::string ISR_Addr, int delay, long long &start_tim, int isr_time = 40, int context_time = 10)
+        int isr_time;            // ISR execution time (variable, default 40 ms)        // context save/restore time (variable, default 10 ms)
+        int context_time;        // context save/restore time (variable, default 10 ms)
+        SyscallEvent(int dev, std::string ISR_Addr, int delay, long long &start_time, int &context_t, int &isr_t)
         {
             device_id = dev;
             ISR_address = ISR_Addr;
             io_delay = delay;
             type = SYSCALL; // default value (can vary)
             long long event_start = start_time;
+            context_time = context_t;
+            isr_time = isr_t;
             desc = "";
             // 1. switch to kernel mode
             desc += std::to_string(start_time) + ", 1, switch to kernel mode\n";
@@ -83,11 +93,11 @@ int main(int argc, char **argv)
             desc += std::to_string(start_time) + ", " + std::to_string(isr_time) + ", SYSCALL: run the ISR (device driver for device " + std::to_string(device_id) + ")\n";
             start_time += isr_time;
 
-            // 7. device performing I/O operation
+            // 6. device performing I/O operation
             desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", device " + std::to_string(device_id) + " performing I/O operation and transferring device data to memory (device busy)\n";
-            start_time += io_delay;
+            start_time += io_delay - isr_time;
 
-            // 8. return from interrupt
+            // 7. return from interrupt
             desc += std::to_string(start_time) + ", 1, IRET (return from interrupt)\n";
             start_time += 1;
             duration = start_time - event_start;
@@ -101,15 +111,15 @@ int main(int argc, char **argv)
         int isr_time;            // ISR execution time (default 40 ms)
         int context_time;        // context save/restore time (default 10 ms)
 
-
-        EndIOEvent(int dev, std::string isrAddr, int delay, long long &start_time, int isr_time = 40, int context_time = 10)
+        EndIOEvent(int dev, std::string isrAddr, int delay, long long &start_time, int &context_t, int &isr_t)
         {
             device_id = dev;
             ISR_address = isrAddr;
             type = END_IO;
             long long event_start = start_time;
             int io_delay = delay;
-
+            context_time = context_t;
+            isr_time = isr_t;
             desc = "";
 
             // 1. switch to kernel mode
@@ -137,11 +147,11 @@ int main(int argc, char **argv)
 
             // 6. check device status or mark I/O complete (added this because shown in TA example)
             desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", check device status and complete operation\n";
-            start_time += io_delay;
+            start_time += io_delay - isr_time;
 
             // 7. return from interrupt
             desc += std::to_string(start_time) + ", 1, IRET (return from interrupt)\n";
-            start_time += 1;
+            start_time = 1;
 
             // total elapsed time
             duration = start_time - event_start;
@@ -155,7 +165,7 @@ int main(int argc, char **argv)
         auto [activity, duration_intr] = parse_trace(trace);
 
         /******************ADD YOUR SIMULATION CODE HERE*************************/
-        /***********SIMULATION CODE 1***********/
+        /***********SIMULATION CODE ***********/
         if (activity == "CPU")
         {
             CPUEvent cpu(duration_intr, current_time);
@@ -163,19 +173,22 @@ int main(int argc, char **argv)
         }
         else if (activity == "SYSCALL")
         {
-            SyscallEvent syscall(duration_intr, vectors[duration_intr], delays[duration_intr] - 40, current_time);
+            SyscallEvent syscall(duration_intr, vectors[duration_intr], delays[duration_intr], current_time, context_time, isr_time);
             execution += syscall.desc;
         }
         else if (activity == "END_IO")
         {
-            EndIOEvent endio(duration_intr, vectors[duration_intr], delays[duration_intr] - 40, current_time);
+            EndIOEvent endio(duration_intr, vectors[duration_intr], delays[duration_intr], current_time, context_time, isr_time);
             execution += endio.desc;
         }
-        /***********SIMULATION CODE 1***********/
+        /***********SIMULATION CODE ***********/
 
         /******************************************************************/
     }
     input_file.close();
-    write_output(execution);
+    if (output_filename.empty())
+        write_output(execution);
+    else
+        write_output(execution, output_filename);
     return 0;
 }

@@ -30,9 +30,9 @@
  */
 std::tuple<std::vector<std::string>, std::vector<int>> parse_args(int argc, char **argv)
 {
-    if (argc != 4)
+    if (argc < 4)
     {
-        std::cout << "ERROR!\nExpected 3 argument, received " << argc - 1 << std::endl;
+        std::cout << "ERROR!\nExpected 3 to 6 arguments, received " << argc - 1 << std::endl;
         std::cout << "To run the program, do: ./interrutps <your_trace_file.txt> <your_vector_table.txt> <your_device_table.txt>" << std::endl;
         exit(1);
     }
@@ -72,7 +72,21 @@ std::tuple<std::vector<std::string>, std::vector<int>> parse_args(int argc, char
     }
     while (std::getline(device_table, duration))
     {
-        delays.push_back(std::stoi(duration));
+        // Trim carriage return (\r) and spaces from the end
+        while (!duration.empty() && (duration.back() == '\r' || duration.back() == ' ' || duration.back() == '\t'))
+            duration.pop_back();
+
+        if (duration.empty())
+            continue; // Skip blank lines safely
+
+        try
+        {
+            delays.push_back(std::stoi(duration));
+        }
+        catch (...)
+        {
+            std::cerr << " Invalid or non-numeric delay value in device_table.txt: '" << duration << "' — skipping.\n";
+        }
     }
 
     return {vectors, delays};
@@ -106,7 +120,20 @@ std::tuple<std::string, int> parse_trace(std::string trace)
     }
 
     auto activity = parts[0];
-    auto duration_intr = std::stoi(parts[1]);
+    std::string value = parts[1];
+    while (!value.empty() && (value.back() == '\r' || value.back() == ' ' || value.back() == '\t'))
+        value.pop_back();
+
+    int duration_intr = 0;
+    try
+    {
+        duration_intr = std::stoi(value);
+    }
+    catch (...)
+    {
+        std::cerr << " Invalid duration in trace file line: '" << trace << "'\n";
+        duration_intr = -1;
+    }
 
     return {activity, duration_intr};
 }
@@ -136,9 +163,9 @@ std::pair<std::string, int> intr_boilerplate(int current_time, int intr_num, int
     return std::make_pair(execution, current_time);
 }
 
-void write_output(std::string execution)
+void write_output(std::string execution, std::string filename = "execution.txt") // Changed to be able to pass filename and write to different files
 {
-    std::ofstream output_file("execution.txt");
+    std::ofstream output_file(filename);
 
     if (output_file.is_open())
     {
@@ -151,6 +178,6 @@ void write_output(std::string execution)
         std::cerr << "Error opening file!" << std::endl;
     }
 
-    std::cout << "Output generated in execution.txt" << std::endl;
+    std::cout << "Output generated in " + filename << std::endl;
 }
 #endif

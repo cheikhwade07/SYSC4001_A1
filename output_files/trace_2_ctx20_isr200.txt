@@ -1,0 +1,49 @@
+0, 95, CPU burst
+95, 1, switch to kernel mode
+96, 20, save context
+116, 1, find vector 6 in memory position 0x12
+117, 1, load ISR address 0X0639 into PC
+118, 200, SYSCALL: run the ISR (device driver for device 6)
+318, 265, device 6 performing I/O operation and transferring device data to memory (device busy)
+383, 1, IRET (return from interrupt)
+384, 26, CPU burst
+410, 1, switch to kernel mode
+411, 20, save context
+431, 1, find vector 6 in memory position 0x12
+432, 1, load ISR address 0X0639 into the PC
+433, 200, ENDIO: run the ISR (device driver for device 6)
+633, 265, check device status and complete operation
+698, 1, IRET (return from interrupt)
+1, 72, CPU burst
+73, 1, switch to kernel mode
+74, 20, save context
+94, 1, find vector 17 in memory position 0x34
+95, 1, load ISR address 0X05B3 into PC
+96, 200, SYSCALL: run the ISR (device driver for device 17)
+296, 235, device 17 performing I/O operation and transferring device data to memory (device busy)
+331, 1, IRET (return from interrupt)
+332, 50, CPU burst
+382, 1, switch to kernel mode
+383, 20, save context
+403, 1, find vector 17 in memory position 0x34
+404, 1, load ISR address 0X05B3 into the PC
+405, 200, ENDIO: run the ISR (device driver for device 17)
+605, 235, check device status and complete operation
+640, 1, IRET (return from interrupt)
+1, 88, CPU burst
+89, 1, switch to kernel mode
+90, 20, save context
+110, 1, find vector 14 in memory position 0x28
+111, 1, load ISR address 0X0165 into PC
+112, 200, SYSCALL: run the ISR (device driver for device 14)
+312, 456, device 14 performing I/O operation and transferring device data to memory (device busy)
+568, 1, IRET (return from interrupt)
+569, 31, CPU burst
+600, 1, switch to kernel mode
+601, 20, save context
+621, 1, find vector 14 in memory position 0x28
+622, 1, load ISR address 0X0165 into the PC
+623, 200, ENDIO: run the ISR (device driver for device 14)
+823, 456, check device status and complete operation
+1079, 1, IRET (return from interrupt)
+1, 52, CPU burst
