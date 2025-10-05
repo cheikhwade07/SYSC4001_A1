@@ -54,7 +54,7 @@ int main(int argc, char **argv)
         int isr_time;            // ISR execution time (variable, default 40 ms)
         int context_time;        // context save/restore time (10, 20, 30 ms)
 
-        SyscallEvent(int dev, std::string ISR_Addr, int delay, long long &start_time, int isr_time = 40, int context_time = 10)
+        SyscallEvent(int dev, std::string ISR_Addr, int delay, long long &start_tim, int isr_time = 40, int context_time = 10)
         {
             device_id = dev;
             ISR_address = ISR_Addr;
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
             start_time += context_time;
 
             // 3. find vector entry
-            desc += std::to_string(start_time) + ", 1, find vector " + std::to_string(device_id) + " in memory\n";
+            desc += std::to_string(start_time) + ", 1, find vector " + std::to_string(device_id) + " in memory position 0x" + std::to_string(device_id * 2) + "\n";
             start_time += 1;
 
             // 4. load ISR address into PC
@@ -83,11 +83,11 @@ int main(int argc, char **argv)
             desc += std::to_string(start_time) + ", " + std::to_string(isr_time) + ", SYSCALL: run the ISR (device driver for device " + std::to_string(device_id) + ")\n";
             start_time += isr_time;
 
-            //  6. device performing I/O
-            desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", device " + std::to_string(device_id) + " performing I/O operation (device busy)\n";
+            // 7. device performing I/O operation
+            desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", device " + std::to_string(device_id) + " performing I/O operation and transferring device data to memory (device busy)\n";
             start_time += io_delay;
 
-            // 7. return from interrupt
+            // 8. return from interrupt
             desc += std::to_string(start_time) + ", 1, IRET (return from interrupt)\n";
             start_time += 1;
             duration = start_time - event_start;
@@ -97,15 +97,18 @@ int main(int argc, char **argv)
     {
         int device_id;           // e.g., 7 (used as the vector index)
         std::string ISR_address; // ISR address value from vector_table.txt (e.g., 0x001C)
-        int isr_time;            // ISR execution time (default 40 ms)
-        int context_time;        // context save/restore time (default 10 ms)
+        int io_delay;            // same io_delay from device_table.txt
+        int isr_time = 40;            // ISR execution time (default 40 ms)
+        int context_time = 10;        // context save/restore time (default 10 ms)
 
-        EndIOEvent(int dev, std::string isrAddr, long long &start_time, int isr_time = 40, int context_time = 10)
+
+        EndIOEvent(int dev, std::string isrAddr, int delay, long long &start_time)
         {
             device_id = dev;
             ISR_address = isrAddr;
             type = END_IO;
             long long event_start = start_time;
+            int io_delay = delay;
 
             desc = "";
 
@@ -133,8 +136,8 @@ int main(int argc, char **argv)
             start_time += isr_time;
 
             // 6. check device status or mark I/O complete (added this because shown in TA example)
-            desc += std::to_string(start_time) + ", 416, check device status and complete operation\n";
-            start_time += 416;
+            desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", check device status and complete operation\n";
+            start_time += io_delay;
 
             // 7. return from interrupt
             desc += std::to_string(start_time) + ", 1, IRET (return from interrupt)\n";
@@ -160,12 +163,12 @@ int main(int argc, char **argv)
         }
         else if (activity == "SYSCALL")
         {
-            SyscallEvent syscall(duration_intr, vectors[duration_intr], delays[duration_intr], current_time);
+            SyscallEvent syscall(duration_intr, vectors[duration_intr], delays[duration_intr] - 40, current_time);
             execution += syscall.desc;
         }
         else if (activity == "END_IO")
         {
-            EndIOEvent endio(duration_intr, vectors[duration_intr], current_time);
+            EndIOEvent endio(duration_intr, vectors[duration_intr], delays[duration_intr] - 40, current_time);
             execution += endio.desc;
         }
         /***********SIMULATION CODE 1***********/
