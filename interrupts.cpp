@@ -98,11 +98,11 @@ int main(int argc, char **argv)
         int device_id;           // e.g., 7 (used as the vector index)
         std::string ISR_address; // ISR address value from vector_table.txt (e.g., 0x001C)
         int io_delay;            // same io_delay from device_table.txt
-        int isr_time = 40;            // ISR execution time (default 40 ms)
-        int context_time = 10;        // context save/restore time (default 10 ms)
+        int isr_time;            // ISR execution time (default 40 ms)
+        int context_time;        // context save/restore time (default 10 ms)
 
 
-        EndIOEvent(int dev, std::string isrAddr, int delay, long long &start_time)
+        EndIOEvent(int dev, std::string isrAddr, int delay, long long &start_time, int isr_time = 40, int context_time = 10)
         {
             device_id = dev;
             ISR_address = isrAddr;
