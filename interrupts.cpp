@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 
             // 7. return from interrupt
             desc += std::to_string(start_time) + ", 1, IRET (return from interrupt)\n";
-            start_time = 1;
+            start_time += 1;
 
             // total elapsed time
             duration = start_time - event_start;
