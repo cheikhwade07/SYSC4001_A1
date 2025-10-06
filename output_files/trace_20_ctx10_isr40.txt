@@ -1,0 +1,49 @@
+0, 93, CPU burst
+93, 1, switch to kernel mode
+94, 10, save context
+104, 1, find vector 8 in memory position 0x16
+105, 1, load ISR address 0X06EF into PC
+106, 40, SYSCALL: run the ISR (device driver for device 8)
+146, 960, device 8 performing I/O operation and transferring device data to memory (device busy)
+1106, 1, IRET (return from interrupt)
+1107, 72, CPU burst
+1179, 1, switch to kernel mode
+1180, 10, save context
+1190, 1, find vector 8 in memory position 0x16
+1191, 1, load ISR address 0X06EF into the PC
+1192, 40, ENDIO: run the ISR (device driver for device 8)
+1232, 960, check device status and complete operation
+2192, 1, IRET (return from interrupt)
+1, 24, CPU burst
+25, 1, switch to kernel mode
+26, 10, save context
+36, 1, find vector 15 in memory position 0x30
+37, 1, load ISR address 0X0584 into PC
+38, 40, SYSCALL: run the ISR (device driver for device 15)
+78, 28, device 15 performing I/O operation and transferring device data to memory (device busy)
+106, 1, IRET (return from interrupt)
+107, 49, CPU burst
+156, 1, switch to kernel mode
+157, 10, save context
+167, 1, find vector 15 in memory position 0x30
+168, 1, load ISR address 0X0584 into the PC
+169, 40, ENDIO: run the ISR (device driver for device 15)
+209, 28, check device status and complete operation
+237, 1, IRET (return from interrupt)
+1, 70, CPU burst
+71, 1, switch to kernel mode
+72, 10, save context
+82, 1, find vector 15 in memory position 0x30
+83, 1, load ISR address 0X0584 into PC
+84, 40, SYSCALL: run the ISR (device driver for device 15)
+124, 28, device 15 performing I/O operation and transferring device data to memory (device busy)
+152, 1, IRET (return from interrupt)
+153, 39, CPU burst
+192, 1, switch to kernel mode
+193, 10, save context
+203, 1, find vector 15 in memory position 0x30
+204, 1, load ISR address 0X0584 into the PC
+205, 40, ENDIO: run the ISR (device driver for device 15)
+245, 28, check device status and complete operation
+273, 1, IRET (return from interrupt)
+1, 19, CPU burst

@@ -1,0 +1,49 @@
+0, 93, CPU burst
+93, 1, switch to kernel mode
+94, 20, save context
+114, 1, find vector 8 in memory position 0x16
+115, 1, load ISR address 0X06EF into PC
+116, 100, SYSCALL: run the ISR (device driver for device 8)
+216, 900, device 8 performing I/O operation and transferring device data to memory (device busy)
+1116, 1, IRET (return from interrupt)
+1117, 72, CPU burst
+1189, 1, switch to kernel mode
+1190, 20, save context
+1210, 1, find vector 8 in memory position 0x16
+1211, 1, load ISR address 0X06EF into the PC
+1212, 100, ENDIO: run the ISR (device driver for device 8)
+1312, 900, check device status and complete operation
+2212, 1, IRET (return from interrupt)
+1, 24, CPU burst
+25, 1, switch to kernel mode
+26, 20, save context
+46, 1, find vector 15 in memory position 0x30
+47, 1, load ISR address 0X0584 into PC
+48, 100, SYSCALL: run the ISR (device driver for device 15)
+148, -32, device 15 performing I/O operation and transferring device data to memory (device busy)
+116, 1, IRET (return from interrupt)
+117, 49, CPU burst
+166, 1, switch to kernel mode
+167, 20, save context
+187, 1, find vector 15 in memory position 0x30
+188, 1, load ISR address 0X0584 into the PC
+189, 100, ENDIO: run the ISR (device driver for device 15)
+289, -32, check device status and complete operation
+257, 1, IRET (return from interrupt)
+1, 70, CPU burst
+71, 1, switch to kernel mode
+72, 20, save context
+92, 1, find vector 15 in memory position 0x30
+93, 1, load ISR address 0X0584 into PC
+94, 100, SYSCALL: run the ISR (device driver for device 15)
+194, -32, device 15 performing I/O operation and transferring device data to memory (device busy)
+162, 1, IRET (return from interrupt)
+163, 39, CPU burst
+202, 1, switch to kernel mode
+203, 20, save context
+223, 1, find vector 15 in memory position 0x30
+224, 1, load ISR address 0X0584 into the PC
+225, 100, ENDIO: run the ISR (device driver for device 15)
+325, -32, check device status and complete operation
+293, 1, IRET (return from interrupt)
+1, 19, CPU burst

@@ -1,0 +1,121 @@
+0, 49, CPU burst
+49, 1, switch to kernel mode
+50, 30, save context
+80, 1, find vector 0 in memory position 0x0
+81, 1, load ISR address 0X01E3 into PC
+82, 100, SYSCALL: run the ISR (device driver for device 0)
+182, 10, device 0 performing I/O operation and transferring device data to memory (device busy)
+192, 1, IRET (return from interrupt)
+193, 1, switch to kernel mode
+194, 30, save context
+224, 1, find vector 0 in memory position 0x0
+225, 1, load ISR address 0X01E3 into the PC
+226, 100, ENDIO: run the ISR (device driver for device 0)
+326, 10, check device status and complete operation
+336, 1, IRET (return from interrupt)
+1, 49, CPU burst
+50, 1, switch to kernel mode
+51, 30, save context
+81, 1, find vector 16 in memory position 0x32
+82, 1, load ISR address 0X02DF into PC
+83, 100, SYSCALL: run the ISR (device driver for device 16)
+183, 856, device 16 performing I/O operation and transferring device data to memory (device busy)
+1039, 1, IRET (return from interrupt)
+1040, 1, switch to kernel mode
+1041, 30, save context
+1071, 1, find vector 16 in memory position 0x32
+1072, 1, load ISR address 0X02DF into the PC
+1073, 100, ENDIO: run the ISR (device driver for device 16)
+1173, 856, check device status and complete operation
+2029, 1, IRET (return from interrupt)
+1, 81, CPU burst
+82, 1, switch to kernel mode
+83, 30, save context
+113, 1, find vector 14 in memory position 0x28
+114, 1, load ISR address 0X0165 into PC
+115, 100, SYSCALL: run the ISR (device driver for device 14)
+215, 356, device 14 performing I/O operation and transferring device data to memory (device busy)
+571, 1, IRET (return from interrupt)
+572, 1, switch to kernel mode
+573, 30, save context
+603, 1, find vector 14 in memory position 0x28
+604, 1, load ISR address 0X0165 into the PC
+605, 100, ENDIO: run the ISR (device driver for device 14)
+705, 356, check device status and complete operation
+1061, 1, IRET (return from interrupt)
+1, 15, CPU burst
+16, 1, switch to kernel mode
+17, 30, save context
+47, 1, find vector 12 in memory position 0x24
+48, 1, load ISR address 0X03B9 into PC
+49, 100, SYSCALL: run the ISR (device driver for device 12)
+149, 45, device 12 performing I/O operation and transferring device data to memory (device busy)
+194, 1, IRET (return from interrupt)
+195, 1, switch to kernel mode
+196, 30, save context
+226, 1, find vector 12 in memory position 0x24
+227, 1, load ISR address 0X03B9 into the PC
+228, 100, ENDIO: run the ISR (device driver for device 12)
+328, 45, check device status and complete operation
+373, 1, IRET (return from interrupt)
+1, 96, CPU burst
+97, 1, switch to kernel mode
+98, 30, save context
+128, 1, find vector 8 in memory position 0x16
+129, 1, load ISR address 0X06EF into PC
+130, 100, SYSCALL: run the ISR (device driver for device 8)
+230, 900, device 8 performing I/O operation and transferring device data to memory (device busy)
+1130, 1, IRET (return from interrupt)
+1131, 1, switch to kernel mode
+1132, 30, save context
+1162, 1, find vector 8 in memory position 0x16
+1163, 1, load ISR address 0X06EF into the PC
+1164, 100, ENDIO: run the ISR (device driver for device 8)
+1264, 900, check device status and complete operation
+2164, 1, IRET (return from interrupt)
+1, 45, CPU burst
+46, 1, switch to kernel mode
+47, 30, save context
+77, 1, find vector 0 in memory position 0x0
+78, 1, load ISR address 0X01E3 into PC
+79, 100, SYSCALL: run the ISR (device driver for device 0)
+179, 10, device 0 performing I/O operation and transferring device data to memory (device busy)
+189, 1, IRET (return from interrupt)
+190, 1, switch to kernel mode
+191, 30, save context
+221, 1, find vector 0 in memory position 0x0
+222, 1, load ISR address 0X01E3 into the PC
+223, 100, ENDIO: run the ISR (device driver for device 0)
+323, 10, check device status and complete operation
+333, 1, IRET (return from interrupt)
+1, 99, CPU burst
+100, 1, switch to kernel mode
+101, 30, save context
+131, 1, find vector 16 in memory position 0x32
+132, 1, load ISR address 0X02DF into PC
+133, 100, SYSCALL: run the ISR (device driver for device 16)
+233, 856, device 16 performing I/O operation and transferring device data to memory (device busy)
+1089, 1, IRET (return from interrupt)
+1090, 1, switch to kernel mode
+1091, 30, save context
+1121, 1, find vector 16 in memory position 0x32
+1122, 1, load ISR address 0X02DF into the PC
+1123, 100, ENDIO: run the ISR (device driver for device 16)
+1223, 856, check device status and complete operation
+2079, 1, IRET (return from interrupt)
+1, 23, CPU burst
+24, 1, switch to kernel mode
+25, 30, save context
+55, 1, find vector 6 in memory position 0x12
+56, 1, load ISR address 0X0639 into PC
+57, 100, SYSCALL: run the ISR (device driver for device 6)
+157, 165, device 6 performing I/O operation and transferring device data to memory (device busy)
+322, 1, IRET (return from interrupt)
+323, 1, switch to kernel mode
+324, 30, save context
+354, 1, find vector 6 in memory position 0x12
+355, 1, load ISR address 0X0639 into the PC
+356, 100, ENDIO: run the ISR (device driver for device 6)
+456, 165, check device status and complete operation
+621, 1, IRET (return from interrupt)
+1, 59, CPU burst

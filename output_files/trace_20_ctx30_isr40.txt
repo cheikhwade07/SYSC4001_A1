@@ -1,0 +1,49 @@
+0, 93, CPU burst
+93, 1, switch to kernel mode
+94, 30, save context
+124, 1, find vector 8 in memory position 0x16
+125, 1, load ISR address 0X06EF into PC
+126, 40, SYSCALL: run the ISR (device driver for device 8)
+166, 960, device 8 performing I/O operation and transferring device data to memory (device busy)
+1126, 1, IRET (return from interrupt)
+1127, 72, CPU burst
+1199, 1, switch to kernel mode
+1200, 30, save context
+1230, 1, find vector 8 in memory position 0x16
+1231, 1, load ISR address 0X06EF into the PC
+1232, 40, ENDIO: run the ISR (device driver for device 8)
+1272, 960, check device status and complete operation
+2232, 1, IRET (return from interrupt)
+1, 24, CPU burst
+25, 1, switch to kernel mode
+26, 30, save context
+56, 1, find vector 15 in memory position 0x30
+57, 1, load ISR address 0X0584 into PC
+58, 40, SYSCALL: run the ISR (device driver for device 15)
+98, 28, device 15 performing I/O operation and transferring device data to memory (device busy)
+126, 1, IRET (return from interrupt)
+127, 49, CPU burst
+176, 1, switch to kernel mode
+177, 30, save context
+207, 1, find vector 15 in memory position 0x30
+208, 1, load ISR address 0X0584 into the PC
+209, 40, ENDIO: run the ISR (device driver for device 15)
+249, 28, check device status and complete operation
+277, 1, IRET (return from interrupt)
+1, 70, CPU burst
+71, 1, switch to kernel mode
+72, 30, save context
+102, 1, find vector 15 in memory position 0x30
+103, 1, load ISR address 0X0584 into PC
+104, 40, SYSCALL: run the ISR (device driver for device 15)
+144, 28, device 15 performing I/O operation and transferring device data to memory (device busy)
+172, 1, IRET (return from interrupt)
+173, 39, CPU burst
+212, 1, switch to kernel mode
+213, 30, save context
+243, 1, find vector 15 in memory position 0x30
+244, 1, load ISR address 0X0584 into the PC
+245, 40, ENDIO: run the ISR (device driver for device 15)
+285, 28, check device status and complete operation
+313, 1, IRET (return from interrupt)
+1, 19, CPU burst
