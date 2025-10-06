@@ -94,7 +94,7 @@ int main(int argc, char **argv)
             start_time += isr_time;
 
             // 6. device performing I/O operation
-            desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", device " + std::to_string(device_id) + " performing I/O operation and transferring device data to memory (device busy)\n";
+            desc += std::to_string(start_time) + ", " + std::to_string(io_delay - isr_time) + ", device " + std::to_string(device_id) + " performing I/O operation and transferring device data to memory (device busy)\n";
             start_time += io_delay - isr_time;
 
             // 7. return from interrupt
@@ -146,7 +146,7 @@ int main(int argc, char **argv)
             start_time += isr_time;
 
             // 6. check device status or mark I/O complete (added this because shown in TA example)
-            desc += std::to_string(start_time) + ", " + std::to_string(io_delay) + ", check device status and complete operation\n";
+            desc += std::to_string(start_time) + ", " + std::to_string(io_delay - isr_time) + ", check device status and complete operation\n";
             start_time += io_delay - isr_time;
 
             // 7. return from interrupt
